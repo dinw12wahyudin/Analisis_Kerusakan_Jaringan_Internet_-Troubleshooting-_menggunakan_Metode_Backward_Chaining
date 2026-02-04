@@ -7,94 +7,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            line-height: 1.6; 
-            margin: 0; 
-            padding: 40px; 
-            background-color: #f0f2f5; 
-            display: flex; 
-            justify-content: center; 
-        }
-        /* Wrapper untuk membagi dua kolom */
-        .wrapper {
-            display: flex;
-            gap: 20px;
-            max-width: 1100px;
-            width: 100%;
-            align-items: flex-start;
-        }
-        /* Kolom Kiri (Aplikasi Anda) */
-        .container { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 12px; 
-            box-shadow: 0 8px 30px rgba(0,0,0,0.05); 
-            flex: 1; /* Mengambil sisa ruang */
-        }
-        /* Kolom Kanan (Penjelasan) */
-        .sidebar {
-            flex: 0 0 400px; /* Lebar tetap untuk penjelasan */
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
-            border-top: 5px solid #1a73e8;
-        }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; margin: 0; padding: 40px; background-color: #f0f2f5; display: flex; justify-content: center; }
+        .wrapper { display: flex; gap: 20px; max-width: 1100px; width: 100%; align-items: flex-start; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); flex: 1; }
+        .sidebar { flex: 0 0 400px; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); border-top: 5px solid #1a73e8; }
         h2 { color: #1a73e8; margin-top: 0; font-weight: 600; font-size: 24px; }
         h3 { color: #333; font-size: 18px; margin-bottom: 10px; }
-        p { color: #5f6368; margin-bottom: 20px; }
-        
-        /* Styling Form Anda (Tetap Sama) */
-        .checkbox-group {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #e9ecef;
-        }
-        .item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        p { color: #5f6368; margin-bottom: 25px; }
+        .checkbox-group { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #e9ecef; }
+        .item { display: flex; align-items: center; margin-bottom: 12px; cursor: pointer; transition: 0.2s; font-size: 14px; }
         .item:hover { color: #1a73e8; }
-        .item input { 
-            margin-right: 12px; 
-            width: 18px; 
-            height: 18px; 
-            cursor: pointer;
-        }
-        button { 
-            background: #1a73e8; color: white; border: none; padding: 12px 20px; width: 100%;
-            cursor: pointer; border-radius: 6px; font-size: 16px; font-weight: 600;
-            transition: all 0.3s ease;
-        }
+        .item input { margin-right: 12px; width: 18px; height: 18px; cursor: pointer; }
+        button { background: #1a73e8; color: white; border: none; padding: 12px 20px; width: 100%; cursor: pointer; border-radius: 6px; font-size: 16px; font-weight: 600; transition: all 0.3s ease; }
         button:hover { background: #1557b0; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3); }
-        
-        /* Area Hasil (Awalnya tersembunyi) */
-        .result { 
-            margin-top: 25px; padding: 20px; border-radius: 8px; 
-            background: #f1f8ff; border-left: 6px solid #1a73e8;
-            animation: fadeIn 0.5s ease;
-            display: none; 
-        }
+        .result { margin-top: 25px; padding: 20px; border-radius: 8px; background: #f1f8ff; border-left: 6px solid #1a73e8; animation: fadeIn 0.5s ease; display: none; }
         .solution { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #adc6ff; font-size: 14px; color: #444; }
-
-        /* Styling List Penjelasan */
         .info-list { padding-left: 20px; font-size: 14px; color: #555; }
         .info-list li { margin-bottom: 15px; }
         .badge { background: #e8f0fe; color: #1a73e8; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Responsive untuk layar kecil */
-        @media (max-width: 900px) {
-            .wrapper { flex-direction: column; }
-            .sidebar { flex: none; width: 100%; }
-        }
+        @media (max-width: 900px) { .wrapper { flex-direction: column; } .sidebar { flex: none; width: 100%; } }
     </style>
 </head>
 <body>
@@ -105,11 +37,14 @@
         <p>Silakan centang gejala yang dialami untuk memulai diagnosa otomatis.</p>
         
         <div class="checkbox-group">
-            <label class="item"><input type="checkbox" name="gejala" value="lampu_indikator_mati"> Lampu indikator modem mati</label>
-            <label class="item"><input type="checkbox" name="gejala" value="ikon_jaringan_silang"> Ikon jaringan di komputer silang (X)</label>
-            <label class="item"><input type="checkbox" name="gejala" value="ping_gateway_sukses"> Bisa Ping ke Gateway (Lokal)</label>
-            <label class="item"><input type="checkbox" name="gejala" value="ping_google_gagal"> Gagal Ping ke Google (Internet)</label>
-            <label class="item"><input type="checkbox" name="gejala" value="ping_ip_sukses"> Bisa Ping IP tapi tidak bisa buka Web</label>
+            <label class="item"><input type="checkbox" name="gejala" value="lampu_indikator_mati"> Lampu indikator LAN/Modem mati</label>
+            <label class="item"><input type="checkbox" name="gejala" value="ikon_jaringan_silang"> Ikon jaringan di komputer silang (X) atau "Not Connected"</label>
+            <label class="item"><input type="checkbox" name="gejala" value="ping_gateway_sukses"> Bisa Ping ke Gateway (Lokal Sukses)</label>
+            <label class="item"><input type="checkbox" name="gejala" value="ping_google_gagal"> Gagal Ping ke 8.8.8.8 (Internet Putus)</label>
+            <label class="item"><input type="checkbox" name="gejala" value="ping_ip_sukses"> Bisa Ping IP (8.8.8.8) tapi tidak bisa buka Nama Domain (google.com)</label>
+            <label class="item"><input type="checkbox" name="gejala" value="request_timed_out"> Hasil Ping sering "Request Timed Out" (RTO)</label>
+            <label class="item"><input type="checkbox" name="gejala" value="ip_identifying"> Status Jaringan macet di "Identifying..." atau "No Internet Access"</label>
+            <label class="item"><input type="checkbox" name="gejala" value="wifi_tidak_muncul"> Nama WiFi (SSID) tidak terdeteksi sama sekali</label>
         </div>
         <button type="button" onclick="prosesDiagnosa()">Mulai Analisis Kerusakan</button>
 
@@ -146,60 +81,67 @@
 
 <script>
 function prosesDiagnosa() {
-    // 1. Ambil data gejala dari checkbox
     const checkboxes = document.querySelectorAll('input[name="gejala"]:checked');
     const facts = {};
-    checkboxes.forEach(cb => {
-        facts[cb.value] = true;
-    });
+    checkboxes.forEach(cb => { facts[cb.value] = true; });
 
-    // 2. Knowledge Base (Persis seperti versi PHP Anda)
-    const rules = {
-        'Kabel LAN Putus / Hardware Rusak': {
-            'conditions': ['lampu_indikator_mati', 'ikon_jaringan_silang'],
-            'fix': 'Periksa kabel LAN, pastikan konektor RJ45 terpasang klik, atau ganti kabel cadangan.'
+    // KNOWLEDGE BASE YANG LEBIH LENGKAP & AKURAT
+    const rules = [
+        {
+            goal: 'Kabel LAN Putus atau Konektor Rusak',
+            conditions: ['lampu_indikator_mati', 'ikon_jaringan_silang'],
+            fix: 'Periksa fisik kabel LAN. Pastikan konektor RJ45 terpasang hingga bunyi klik. Coba ganti dengan kabel cadangan.'
         },
-        'Gangguan Layanan ISP (Provider)': {
-            'conditions': ['ping_gateway_sukses', 'ping_google_gagal'],
-            'fix': 'Restart Modem selama 5 menit. Jika tetap mati, hubungi Call Center Provider Anda.'
+        {
+            goal: 'Masalah WiFi Radio (Hardware/Driver)',
+            conditions: ['wifi_tidak_muncul'],
+            fix: 'Pastikan tombol fisik WiFi di laptop ON. Cek Device Manager apakah driver Network Adapter bermasalah atau ter-disable.'
         },
-        'Konfigurasi DNS Bermasalah': {
-            'conditions': ['ping_ip_sukses'],
-            'fix': 'Ganti pengaturan DNS di komputer Anda ke DNS Google (8.8.8.8 dan 8.8.4.4).'
+        {
+            goal: 'Gangguan Layanan ISP (Provider Internet)',
+            conditions: ['ping_gateway_sukses', 'ping_google_gagal'],
+            fix: 'Koneksi lokal normal, tapi jalur keluar putus. Restart modem. Jika lampu "Internet/LOS" merah, hubungi teknisi ISP.'
+        },
+        {
+            goal: 'Konfigurasi DNS Server Salah',
+            conditions: ['ping_ip_sukses'],
+            fix: 'Internet aktif tapi tidak bisa translate nama domain. Atur DNS secara manual ke 8.8.8.8 (Google) atau 1.1.1.1 (Cloudflare).'
+        },
+        {
+            goal: 'IP Conflict atau Salah Konfigurasi IP',
+            conditions: ['ip_identifying'],
+            fix: 'Terjadi bentrokan IP atau DHCP gagal. Gunakan perintah "ipconfig /release" dilanjutkan "ipconfig /renew" di CMD.'
+        },
+        {
+            goal: 'Kepadatan Trafik atau Kabel Hampir Putus',
+            conditions: ['request_timed_out'],
+            fix: 'Koneksi tidak stabil. Periksa beban bandwidth (ada yang download besar?) atau kualitas kabel yang mulai menurun.'
         }
-    };
+    ];
 
-    // 3. Mesin Inferensi
     let ditemukan = false;
     let outputHtml = "";
 
-    for (const [goal, data] of Object.entries(rules)) {
-        let allConditionsMet = true;
-        
-        for (const condition of data.conditions) {
-            if (!facts[condition]) {
-                allConditionsMet = false;
-                break;
-            }
-        }
+    rules.forEach(rule => {
+        // Cek apakah minimal SALAH SATU atau SEMUA kondisi terpenuhi
+        // Untuk Troubleshooting, kita pakai logika: Jika syarat terpenuhi semua, tampilkan.
+        let isMet = rule.conditions.every(cond => facts[cond]);
 
-        if (allConditionsMet) {
-            outputHtml += `✅ <strong>Penyebab: ${goal}</strong>`;
-            outputHtml += `<div class='solution'><strong>Solusi:</strong> ${data.fix}</div><br>`;
+        if (isMet) {
+            outputHtml += `✅ <strong>Penyebab: ${rule.goal}</strong>`;
+            outputHtml += `<div class='solution'><strong>Solusi:</strong> ${rule.fix}</div><hr style="border:0; border-top:1px solid #eee; margin:10px 0;">`;
             ditemukan = true;
         }
-    }
+    });
 
-    // Tampilkan hasil
     const resultDiv = document.getElementById('hasilDiagnosa');
     const contentDiv = document.getElementById('kontenHasil');
-    
     resultDiv.style.display = "block";
     
     if (ditemukan) {
         contentDiv.innerHTML = outputHtml;
     } else {
-        contentDiv.innerHTML = "❌ <strong>Hasil tidak ditemukan.</strong><br><small>Saran: Coba centang lebih banyak gejala yang relevan.</small>";
+        contentDiv.innerHTML = "❌ <strong>Hasil tidak ditemukan.</strong><br><small>Saran: Centang gejala yang lebih spesifik. Misalnya, jika indikator mati, biasanya ikon di komputer juga akan silang.</small>";
     }
 }
 </script>
