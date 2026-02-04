@@ -1,2 +1,3 @@
 # Analisis_Kerusakan_Jaringan_Internet_-Troubleshooting-_menggunakan_Metode_Backward_Chaining
-Analisis_Kerusakan_Jaringan_Internet_(Troubleshooting)_menggunakan_Metode_Backward_Chaining pada Kantor Instansi
+Sistem Pakar dan Pendukung Keputusan TI22C
+Kelompok 3
