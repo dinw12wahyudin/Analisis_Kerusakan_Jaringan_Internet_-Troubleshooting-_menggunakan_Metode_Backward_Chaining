@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPK Troubleshooting Jaringan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 40px; 
+            background-color: #f0f2f5; 
+            display: flex; 
+            justify-content: center; 
+        }
+        .wrapper {
+            display: flex;
+            gap: 20px;
+            max-width: 1100px;
+            width: 100%;
+            align-items: flex-start;
+        }
+        .container { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05); 
+            flex: 1;
+        }
+        .sidebar {
+            flex: 0 0 400px; 
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+            border-top: 5px solid #1a73e8;
+        }
+        h2 { color: #1a73e8; margin-top: 0; font-weight: 600; font-size: 24px; }
+        h3 { color: #333; font-size: 18px; margin-bottom: 10px; }
+        p { color: #5f6368; margin-bottom: 20px; }
+        
+        .checkbox-group {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+        .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .item:hover { color: #1a73e8; }
+        .item input { 
+            margin-right: 12px; 
+            width: 18px; 
+            height: 18px; 
+            cursor: pointer;
+        }
+        button { 
+            background: #1a73e8; color: white; border: none; padding: 12px 20px; width: 100%;
+            cursor: pointer; border-radius: 6px; font-size: 16px; font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        button:hover { background: #1557b0; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3); }
+        
+        #resultArea { 
+            margin-top: 25px; padding: 20px; border-radius: 8px; 
+            background: #f1f8ff; border-left: 6px solid #1a73e8;
+            display: none; /* Sembunyi jika belum ada hasil */
+        }
+        .solution { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #adc6ff; font-size: 14px; color: #444; }
+
+        .info-list { padding-left: 20px; font-size: 14px; color: #555; }
+        .info-list li { margin-bottom: 15px; }
+        .badge { background: #e8f0fe; color: #1a73e8; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+
+        @media (max-width: 900px) {
+            .wrapper { flex-direction: column; }
+            .sidebar { flex: none; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="container">
+        <h2>Analisis Kerusakan Jaringan (Backward Chaining)</h2>
+        <p>Silakan centang gejala yang dialami untuk memulai diagnosa otomatis.</p>
+        
+        <div class="checkbox-group">
+            <label class="item"><input type="checkbox" class="gejala" value="lampu_indikator_mati"> Lampu indikator modem mati</label>
+            <label class="item"><input type="checkbox" class="gejala" value="ikon_jaringan_silang"> Ikon jaringan di komputer silang (X)</label>
+            <label class="item"><input type="checkbox" class="gejala" value="ping_gateway_sukses"> Bisa Ping ke Gateway (Lokal)</label>
+            <label class="item"><input type="checkbox" class="gejala" value="ping_google_gagal"> Gagal Ping ke Google (Internet)</label>
+            <label class="item"><input type="checkbox" class="gejala" value="ping_ip_sukses"> Bisa Ping IP tapi tidak bisa buka Web</label>
+        </div>
+        <button onclick="mulaiAnalisis()">Mulai Analisis Kerusakan</button>
+
+        <div id="resultArea">
+            <h3 style="margin-top:0; color:#1a73e8;">Hasil Diagnosa:</h3>
+            <div id="hasilKonten"></div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <h3>Informasi Metode</h3>
+        <p><span class="badge">BACKWARD CHAINING</span></p>
+        <ul class="info-list">
+            <li><strong>Sifat:</strong> <i>Client-side Execution</i> (Berjalan di browser melalui JS).</li>
+            <li><strong>Alur Kerja:</strong> Sistem memeriksa setiap target kerusakan (Goal) dan mencari fakta pendukung dari checkbox yang Anda pilih.</li>
+            <li><strong>Keunggulan:</strong> Sangat ringan dan bisa di-hosting di GitHub Pages karena tidak membutuhkan server backend.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function mulaiAnalisis() {
+        // 1. Ambil data checkbox yang dicentang
+        const checkboxes = document.querySelectorAll('.gejala:checked');
+        const facts = {};
+        checkboxes.forEach((cb) => {
+            facts[cb.value] = true;
+        });
+
+        // 2. Knowledge Base (Aturan)
+        const rules = [
+            {
+                goal: 'Kabel LAN Putus / Hardware Rusak',
+                conditions: ['lampu_indikator_mati', 'ikon_jaringan_silang'],
+                fix: 'Periksa kabel LAN, pastikan konektor RJ45 terpasang klik, atau ganti kabel cadangan.'
+            },
+            {
+                goal: 'Gangguan Layanan ISP (Provider)',
+                conditions: ['ping_gateway_sukses', 'ping_google_gagal'],
+                fix: 'Restart Modem selama 5 menit. Jika tetap mati, hubungi Call Center Provider Anda.'
+            },
+            {
+                goal: 'Konfigurasi DNS Bermasalah',
+                conditions: ['ping_ip_sukses'],
+                fix: 'Ganti pengaturan DNS di komputer Anda ke DNS Google (8.8.8.8 dan 8.8.4.4).'
+            }
+        ];
+
+        // 3. Mesin Inferensi (Backward Chaining)
+        let ditemukan = false;
+        let htmlHasil = "";
+
+        rules.forEach((rule) => {
+            // Cek apakah semua kondisi dalam rule ini terpenuhi oleh fakta
+            let allConditionsMet = rule.conditions.every(cond => facts[cond]);
+
+            if (allConditionsMet) {
+                htmlHasil += `✅ <strong>Penyebab: ${rule.goal}</strong>`;
+                htmlHasil += `<div class="solution"><strong>Solusi:</strong> ${rule.fix}</div><br>`;
+                ditemukan = true;
+            }
+        });
+
+        const resultArea = document.getElementById('resultArea');
+        const hasilKonten = document.getElementById('hasilKonten');
+
+        resultArea.style.display = 'block';
+        if (ditemukan) {
+            hasilKonten.innerHTML = htmlHasil;
+        } else {
+            hasilKonten.innerHTML = "❌ <strong>Hasil tidak ditemukan.</strong><br><small>Saran: Coba centang lebih banyak gejala yang relevan.</small>";
+        }
+    }
+</script>
+
+</body>
+</html>
